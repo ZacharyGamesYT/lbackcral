@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width">
+    <title>Dungeon Crawl (Early Alpha)</title>
+    <link rel="stylesheet" type="text/css" href="/shared/shared.css">
+    <link rel="stylesheet" type="text/css" href="crawl.css">
+</head>
+<body>
+    <div id="modalBackground" hidden></div>
+    <div id="container">
+        <div id="ui" class="button-group">
+            <button id="attackButton" type="button">Attack (Enter)</button>
+            <button id="shootButton" type="button">Shoot (CTRL-Enter)</button>
+            <button id="lookButton" type="button"><strong>L</strong>ook</button>
+            <button id="statsButton" type="button"><strong>Z</strong> - Stats</button>
+            <button id="inventoryButton" type="button"><strong>I</strong>nventory</button>
+            <button id="resetButton" type="button" style="color: red;">Reset</button>
+        </div>
+        <canvas id="canvas" tabindex="1"></canvas>
+        <div id="output"></div>
+        <div id="statsDialog" class="dialog" tabindex="0" hidden>
+            <h1>Character Stats</h1>
+            <table id="statsTable">
+                <thead></thead>
+                <tbody>
+                    <tr>
+                        <td>Health:</td>
+                        <td id="statsHealth"></td>
+                    </tr>
+                    <tr>
+                        <td>Strength:</td>
+                        <td id="statsStrength"></td>
+                    </tr>
+                    <tr>
+                        <td>Agility:</td>
+                        <td id="statsAgility"></td>
+                    </tr>
+                    <tr>
+                        <td>Intelligence:</td>
+                        <td id="statsIntelligence"></td>
+                    </tr>
+                    <tr>
+                        <td>Attack Melee / Ranged:</td>
+                        <td id="statsAttack"></td>
+                    </tr>
+                    <tr>
+                        <td>Damage Melee / Ranged:</td>
+                        <td id="statsDamage"></td>
+                    </tr>
+                    <tr>
+                        <td>Defense:</td>
+                        <td id="statsDefense"></td>
+                    </tr>
+                    <tr>
+                        <td>Level:</td>
+                        <td id="statsLevel"></td>
+                    </tr>
+                    <tr>
+                        <td>Experience:</td>
+                        <td id="statsExperience"></td>
+                    </tr>
+                    <tr>
+                        <td>Gold:</td>
+                        <td id="statsGold"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button id="statsCloseButton" class="dialog-close-button mt-3" type="button">Close</button>
+        </div>
+        <div id="inventoryDialog" class="dialog" tabindex="0" hidden>
+            <h1>Inventory</h1>
+            <div id="inventoryInfo"></div>
+            <div id="inventoryEmpty" hidden>Your inventory is currently empty - go find some treasure!</div>
+            <table id="inventoryTable">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+            <div class="button-group">
+                <button id="inventoryPrevPageButton" type="button"><strong>P</strong>rev</button>
+                <button id="inventoryNextPageButton" type="button"><strong>N</strong>ext</button>
+                <button id="inventoryCloseButton" class="dialog-close-button" type="button">Close</button>
+            </div>
+            <template id="inventoryItemTemplate">
+                <tr class="inventory-item-row item-row">
+                    <td class="item-index"></td>
+                    <td class="item-name"></td>
+                    <td>
+                        <div class="button-group" style="flex: 1;text-align: right;justify-content: right;">
+                            <button class="inventory-remove-button" type="button"><strong>R</strong>emove</button>
+                            <button class="inventory-equip-button" type="button"><strong>E</strong>quip</button>
+                            <button class="inventory-use-button" type="button"><strong>U</strong>se</button>
+                            <button class="inventory-drop-button" type="button"><strong>D</strong>rop</button>
+                        </div>
+                    </td>
+                </tr>
+            </template>
+        </div>
+        <div id="containerDialog" class="dialog" tabindex="0" hidden>
+            <h1><span id="containerName"></span> Contents</h1>
+            <table id="containerTable">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+            <div class="button-group">
+                <button id="containerTakeAllButton" class="dialog-close-button mt-3" type="button">Take All
+                    (Enter)</button>
+                <button id="containerCloseButton" class="dialog-close-button mt-3" type="button">Close (Escape)</button>
+            </div>
+            <template id="containerItemTemplate">
+                <tr class="container-item-row item-row">
+                    <td class="item-index"></td>
+                    <td class="item-name"></td>
+                    <td>
+                        <button class="container-take-button" type="button"><strong>T</strong>ake</button>
+                    </td>
+                </tr>
+            </template>
+        </div>
+        <div id="shopDialog" class="dialog" tabindex="0" hidden>
+            <h1>Shop</h1>
+            <div id="shopGoldSpan" class="my-3"></div>
+            <table id="shopTable">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+            <div class="my-3">* - indicates that item is equipped.</div>
+            <div class="button-group">
+                <button id="shopBuyButton" class="mt-3" type="button"><strong>B</strong>uy</button>
+                <button id="shopSellButton" class="mt-3" type="button"><strong>S</strong>ell</button>
+                <button id="shopPrevPageButton" class="mt-3" type="button"><strong>P</strong>rev</button>
+                <button id="shopNextPageButton" class="mt-3" type="button"><strong>N</strong>ext</button>
+                <button id="shopExitButton" class="dialog-close-button mt-3"
+                    type="button">E<strong>x</strong>it</button>
+            </div>
+            <template id="shopBuyItemTemplate">
+                <tr class="shop-buy-row item-row">
+                    <td class="item-index"></td>
+                    <td class="item-name"></td>
+                    <td class="item-cost"></td>
+                </tr>
+            </template>
+            <template id="shopSellItemTemplate">
+                <tr class="shop-sell-row item-row">
+                    <td class="item-index"></td>
+                    <td class="item-name"></td>
+                    <td class="item-cost"></td>
+                </tr>
+            </template>
+        </div>
+        <div id="levelDialog" class="dialog" tabindex="0" hidden>
+            <h1>You have leveled up!</h1>
+            <p>Please choose an attribute to increase.</p>
+            <table id="levelAttributeTable">
+                <tr id="levelStrengthRow" class="item-row">
+                    <td>1. <strong>S</strong>trength</td>
+                </tr>
+                <tr id="levelIntelligenceRow" class="item-row">
+                    <td>2. <strong>I</strong>ntelligence</td>
+                </tr>
+                <tr id="levelAgilityRow" class="item-row">
+                    <td>3. <strong>A</strong>gility</td>
+                </tr>
+            </table>
+        </div>
+        <div id="defeatDialog" class="dialog" tabindex="0" hidden>
+            You have been defeated!
+            <button id="tryAgainButton" type="button"><strong>T</strong>ry Again</button>
+        </div>
+    </div>
+    <script type="module" src="crawl.js"></script>
+</body>
+</html>

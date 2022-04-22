@@ -1,0 +1,163 @@
+html {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+#canvas {
+    box-sizing: border-box;
+    flex: 1 1;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+}
+
+#output {
+    padding: .25em;
+    box-sizing: border-box;
+    flex: 0;
+    min-height: 8em;
+    background-color: black;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    border-top: solid 2px lightgray;
+    overflow: auto;
+}
+
+#ui {
+    background-color: black;
+}
+
+.message {
+    background-color: black;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.message-error {
+    color: red;
+}
+
+.message-info {
+    font-style: italic;
+    color: royalblue;
+}
+
+.message-warning {
+    color: yellow;
+}
+
+.dialog {
+    z-index: 3;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: lightgray 2px solid;
+    border-radius: .5em;
+    background-color: black;
+    color: white;
+    padding: 1em;
+    min-width: 20em;
+}
+
+#statsTable {
+    width: 100%;
+}
+
+#statsTable td {
+    padding: .25em;
+}
+
+#ui {
+    z-index: 1;
+}
+
+#modalBackground {
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: .75;
+}
+
+button {
+    background-color: royalblue;
+}
+
+button:disabled {
+    color: darkgray;
+}
+
+.button-group button {
+    border-color: darkblue;
+}
+
+table, tr, td {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+#inventoryTable {
+    width: 100%;
+}
+
+#inventoryTable td {
+    margin: 0;
+    padding: .25em;
+}
+
+#containerTable {
+    width: 100%;
+}
+
+#containerTable td {
+    padding: .25em;
+}
+
+.item-row {
+    cursor: pointer;
+}
+
+.item-row:hover, .item-row:hover td {
+    background-color: dimgrey;
+}
+
+.item-row.selected, .item-row.selected td {
+    background-color: darkgray;
+}
+
+.item-row.disabled {
+    cursor: not-allowed;
+    color: gray;
+}
+
+#levelAttributeTable {
+    width: 100%;
+}
+
+#levelAttributeTable td {
+    padding: .25em;
+}
+
+#shopTable {
+    width: 100%;
+}
+
+#shopTable td {
+    padding: .25em;
+}
